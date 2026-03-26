@@ -17,16 +17,63 @@ model = load('kmeans2.pkl')
 
 st.title("Country Clustering App 🌍")
 
-st.write("Enter country details:")
+# User inputs
+gdp = st.number_input("GDP")
+life_exp = st.number_input("Life Expectancy Female")
+birth_rate = st.number_input("Birth Rate")
 
-# Inputs
-gdp = st.number_input("GDP", min_value=0.0)
-life_exp = st.number_input("Life Expectancy Female", min_value=0.0)
-birth_rate = st.number_input("Birth Rate", min_value=0.0)
+# Default values (approx — replace with your dataset mean if possible)
+defaults = {
+    'Business Tax Rate': 40,
+    'CO2 Emissions': 5,
+    'Days to Start Business': 20,
+    'Ease of Business': 60,
+    'Energy Usage': 2000,
+    'Health Exp % GDP': 6,
+    'Health Exp/Capita': 500,
+    'Hours to do Tax': 200,
+    'Infant Mortality Rate': 30,
+    'Internet Usage': 50,
+    'Lending Interest': 10,
+    'Life Expectancy Male': 65,
+    'Mobile Phone Usage': 80,
+    'Population 0-14': 30,
+    'Population 15-64': 60,
+    'Population 65+': 10,
+    'Population Total': 1000000,
+    'Population Urban': 50,
+    'Tourism Inbound': 1000,
+    'Tourism Outbound': 800
+}
 
-# Prediction
 if st.button("Predict Cluster"):
-    data = np.array([[gdp, life_exp, birth_rate]])
+
+    data = np.array([[
+        birth_rate,
+        defaults['Business Tax Rate'],
+        defaults['CO2 Emissions'],
+        defaults['Days to Start Business'],
+        defaults['Ease of Business'],
+        defaults['Energy Usage'],
+        gdp,
+        defaults['Health Exp % GDP'],
+        defaults['Health Exp/Capita'],
+        defaults['Hours to do Tax'],
+        defaults['Infant Mortality Rate'],
+        defaults['Internet Usage'],
+        defaults['Lending Interest'],
+        life_exp,
+        defaults['Life Expectancy Male'],
+        defaults['Mobile Phone Usage'],
+        defaults['Population 0-14'],
+        defaults['Population 15-64'],
+        defaults['Population 65+'],
+        defaults['Population Total'],
+        defaults['Population Urban'],
+        defaults['Tourism Inbound'],
+        defaults['Tourism Outbound']
+    ]])
+
     data_scaled = scaler.transform(data)
     cluster = model.predict(data_scaled)
 
