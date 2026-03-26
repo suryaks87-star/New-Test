@@ -7,35 +7,27 @@ Original file is located at
     https://colab.research.google.com/drive/17GYITXcWhk6J6T_QPiK_4PP-XlwM69Pq
 """
 
-# Commented out IPython magic to ensure Python compatibility.
-# #app.py
-# %%writefile app.py
-# import streamlit as st
-# #import pickle
-# import numpy as np
-# from joblib import load
-# 
-# 
-# import pickle
-# 
-# 
-# # Load model
-# scaler = load(open('scaler2.pkl', 'rb'))
-# model = load(open('kmeans2.pkl', 'rb'))
-# 
-# st.title("Country Clustering App 🌍")
-# 
-# st.write("Enter country details:")
-# 
-# # Example inputs (adjust based on your features)
-# gdp = st.number_input("GDP")
-# life_exp = st.number_input("Life Expectancy Female")
-# birth_rate = st.number_input("Birth Rate")
-# 
-# # Prediction
-# if st.button("Predict Cluster"):
-#     data = np.array([[gdp, life_exp, birth_rate]])
-#     data_scaled = scaler.transform(data)
-#     cluster = model.predict(data_scaled)
-# 
-#     st.success(f"This country belongs to Cluster: {cluster[0]}")
+import streamlit as st
+import numpy as np
+from joblib import load
+
+# Load model
+scaler = load('scaler2.pkl')
+model = load('kmeans2.pkl')
+
+st.title("Country Clustering App 🌍")
+
+st.write("Enter country details:")
+
+# Inputs
+gdp = st.number_input("GDP", min_value=0.0)
+life_exp = st.number_input("Life Expectancy Female", min_value=0.0)
+birth_rate = st.number_input("Birth Rate", min_value=0.0)
+
+# Prediction
+if st.button("Predict Cluster"):
+    data = np.array([[gdp, life_exp, birth_rate]])
+    data_scaled = scaler.transform(data)
+    cluster = model.predict(data_scaled)
+
+    st.success(f"This country belongs to Cluster: {cluster[0]}")
